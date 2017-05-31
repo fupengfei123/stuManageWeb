@@ -128,15 +128,19 @@ public class BanjiServlet extends HttpServlet {
 
 	private void showModifySubject(HttpServletRequest request,
 			HttpServletResponse response) {
-
-		int bjId = Integer.parseInt(request.getParameter("bjId"));
 		BanjiDao bjDao = new BanjiDao();
-		Banji bj = bjDao.searchById(bjId);
-		
+		List<Banji> bjList = bjDao.search();
+		Banji bj = bjList.get(0);
+		int bjId=bjList.get(0).getId();
+		if (request.getParameter("bjId")!=null) {
+			bjId = Integer.parseInt(request.getParameter("bjId"));
+			bj = bjDao.searchById(bjId);
+		}
 		SubjectDao sd = new SubjectDao();
 		List<Subject> subs = sd.searchByBanji(bjId);
 		request.setAttribute("bj", bj);
 		request.setAttribute("subs", subs);
+		request.setAttribute("bjs", bjList);
 		try {
 			request.getRequestDispatcher("WEB-INF/banji/showModifySubject.jsp")
 					.forward(request, response);

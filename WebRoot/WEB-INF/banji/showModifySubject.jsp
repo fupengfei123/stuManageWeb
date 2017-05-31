@@ -26,11 +26,12 @@
 }
 </style>
 <%
-			int bjId = Integer.parseInt(request.getParameter("bjId"));
-			List<Subject> list = (List<Subject>) request.getAttribute("subs");
-			Banji bj = (Banji) request.getAttribute("bj");
-			String bjName = bj.getName();
-		%>
+	List<Subject> subs = (List<Subject>) request.getAttribute("subs");
+	List<Banji> bjs = (List<Banji>) request.getAttribute("bjs");
+	Banji bj = (Banji) request.getAttribute("bj");
+	String bjName = bj.getName();
+	int bjId = bj.getId();
+%>
 <script>
 	$(document).ready(function() {
 		var selectId = 0;
@@ -47,54 +48,75 @@
 				if (confirm("确定删除？")) {
 					window.location.href = "banji?type=deleteSubject&subId="+ selectId+"&bjId=<%=bjId%>";
 				} else {
-				    alert("取消删除");
-					window.location.href = "banji?type=show";
-					}
-				} else {
-					alert("请选择需要删除的科目！");
-					window.location.href = "banji?type=show";
+					alert("取消删除");
+					window.location.href = "banji?type=showModifySubject";
 				}
-			});
+			} else {
+				alert("请选择需要删除的科目！");
+				window.location.href = "banji?type=showModifySubject";
+				}
 		});
+		$("#bjSelect").change(function() {
+			window.location.href = "banji?type=showModifySubject&bjId="+ $("#bjSelect").val();
+			});
+	});
 </script>
 
 </head>
 
 <body>
 	<div id="a">
-	<div style="position:absolute;margin-top:10px;width:700px;height:100px;text-align:center" >
-	<h1>科目管理页</h1></div>
+		<div
+			style="position:absolute;margin-top:10px;width:700px;height:100px;text-align:center">
+			<h1>科目管理页</h1>
+		</div>
 		<div
 			style="position:absolute; border:red solid 1px;width:700px;margin-top:100px"></div>
-		
-			<div style="font-size: 30px;margin-left: 50px;margin-top:100px;"><%=bjName%></div>
-			<table style="width:600px;margin:40px auto"
-				class="table table-striped table-bordered table-hover table-condensed ">
-				
-				<tr align=center class="info">
-					<td>id</td>
-					<td>科目名</td>
-				</tr>
-				
+
+		<div
+			style="width:200px; font-size: 30px;margin-left: 50px;margin-top:135px;">
+			<select id="bjSelect" name="bjId" class="form-control">
 				<%
-					for (Subject sub : list) {
+					for (int i = 0; i < bjs.size(); i++) {
 				%>
-				<tr align=center data-id="<%=sub.getId()%>">
-					<td class="active"><%=sub.getId()%></td>
-					<td class="success"><%=sub.getName()%></td>
-				</tr>
+				<option
+					<%if (bj.getId() == bjs.get(i).getId()) {
+					out.print("selected");
+				}%>
+					value="<%=bjs.get(i).getId()%>"><%=bjs.get(i).getName()%></option>
+
 				<%
 					}
 				%>
-			</table>
+			</select>
 		</div>
-		<div style="position:absolute;margin-top:-105px">
-			<div style="margin-left:150px;float:left">
-				<button id="add" type="button" class="btn btn-primary">增加</button>
-			</div>
-			<div style="margin-left:100px;float:left">
-				<button id="delete" type="button" class="btn btn-danger">删除</button>
-			</div>
+		<table style="width:600px;margin:40px auto"
+			class="table table-striped table-bordered table-hover table-condensed ">
+
+			<tr align=center class="info">
+				<td>id</td>
+				<td>科目名</td>
+			</tr>
+
+			<%
+				for (Subject sub : subs) {
+			%>
+			<tr align=center data-id="<%=sub.getId()%>">
+				<td class="active"><%=sub.getId()%></td>
+				<td class="success"><%=sub.getName()%></td>
+			</tr>
+			<%
+				}
+			%>
+		</table>
+	</div>
+	<div style="position:absolute;margin-top:-105px">
+		<div style="margin-left:150px;float:left">
+			<button id="add" type="button" class="btn btn-primary">增加</button>
 		</div>
+		<div style="margin-left:100px;float:left">
+			<button id="delete" type="button" class="btn btn-danger">删除</button>
+		</div>
+	</div>
 </body>
 </html>

@@ -62,7 +62,7 @@
 						<a href="banji?type=showAdd" target="right">增加班级</a>
 					</div>
 					<div class="panel-body">
-						<a href="banji?type=showAdd" target="right">管理课程</a>
+						<a href="banji?type=showModifySubject" target="show">管理课程</a>
 					</div>
 				</div>
 				<div class="panel panel-default">

@@ -62,7 +62,7 @@
 			});
 		$("#modifySubject").click(function() {
 			if (selectId != 0) {
-				window.location.href = "banji?type=showModifySubject&bjId="+ selectId +"&bjName="+ selectName;
+				window.location.href = "banji?type=showModifySubject&bjId="+ selectId;
 			} else {
 				alert("请选择需要管理课程的班级！");
 				window.location.href = "banji?type=show";

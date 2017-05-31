@@ -36,7 +36,7 @@
 				<div style="width:300px">
 					<select name="subId" class="form-control">
 						<%
-							for (int i = 0; i < subs.size(); i++) {
+							for(int i = 0; i < subs.size(); i++) {
 						%>
 						<option value="<%=subs.get(i).getId()%>"><%=subs.get(i).getName()%></option>
 
