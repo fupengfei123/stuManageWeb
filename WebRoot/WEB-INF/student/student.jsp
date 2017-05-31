@@ -90,7 +90,7 @@
 			<form action="student?type=search" method="post">
 				<input type="hidden" name="type" value="search" />
 				<div 
-				style="position:absolute; width:700px;height:100px;line-height:25px; margin-top:-80px;margin-left:40px;">
+				style="position:absolute; width:700px;height:100px;line-height:25px; margin-top:50px;margin-left:40px;">
 					姓名：<input type="text" style="width:80px;margin-top:30px;"
 						name="name" /> 年龄：<input type="text" name="age"
 						style="width:80px" /> 性别：<input type="text" name="gender"
@@ -100,7 +100,7 @@
 						<%
 							for (int i = 0; i < bjList.size(); i++) {
 						%>
-						<option  selected value="<%=bjList.get(i).getId()%>"><%=bjList.get(i).getName()%></option>
+						<option value="<%=bjList.get(i).getId()%>"><%=bjList.get(i).getName()%></option>
 						<%
 							}
 						%>

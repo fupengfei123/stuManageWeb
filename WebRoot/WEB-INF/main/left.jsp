@@ -59,7 +59,10 @@
 						<a href="banji" target="show">显示班级</a>
 					</div>
 					<div class="panel-body">
-						<a>增加班级</a>
+						<a href="banji?type=showAdd" target="right">增加班级</a>
+					</div>
+					<div class="panel-body">
+						<a href="banji?type=showAdd" target="right">管理课程</a>
 					</div>
 				</div>
 				<div class="panel panel-default">
@@ -71,7 +74,7 @@
 					</div>
 					<div id="subject" class="panel-collapse collapse">
 						<div class="panel-body">
-							<a>显示科目</a>
+							<a href="subject" target="show">显示科目</a>
 						</div>
 						<div class="panel-body">
 							<a>增加科目</a>

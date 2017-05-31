@@ -11,12 +11,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.BanjiDao;
+import dao.SubjectDao;
 import entity.Banji;
+import entity.Subject;
 
 @SuppressWarnings("serial")
 public class BanjiServlet extends HttpServlet {
 	// BanjiDao成员变量
 	BanjiDao sd = new BanjiDao();
+
 	public void doGet(HttpServletRequest request, HttpServletResponse response) {
 		// 解决乱码
 		try {
@@ -42,17 +45,114 @@ public class BanjiServlet extends HttpServlet {
 				delete(request, response);
 			} else if (type.equals("search")) {
 				search(request, response);
+			} else if (type.equals("showModifySubject")) {
+				showModifySubject(request, response);
+			} else if (type.equals("showAddSubject")) {
+				showAddSubject(request, response);
+			} else if (type.equals("addSubject")) {
+				addSubject(request, response);
+			} else if (type.equals("deleteSubject")) {
+				deleteSubject(request, response);
 			}
 		} else {
 			search(request, response);
 		}
 	}
 
+	private void deleteSubject(HttpServletRequest request,
+			HttpServletResponse response) {
+		int subId = Integer.parseInt(request.getParameter("subId"));
+		int bjId = Integer.parseInt(request.getParameter("bjId"));
+
+		SubjectDao sd = new SubjectDao();
+		int result = sd.deleteBanjiAndSubject(bjId, subId);
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			String mes = "<script>";
+			if (result > 0) {
+			mes += "alert('删除成功！');";
+			} else {
+				mes += "alert('删除失败！');";
+			}
+			mes += "window.location.href='banji?type=showModifySubject&bjId="+bjId+"'";
+			mes += "</script>";
+			out.print(mes);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void addSubject(HttpServletRequest request,
+			HttpServletResponse response) {
+		int subId = Integer.parseInt(request.getParameter("subId"));
+		int bjId = Integer.parseInt(request.getParameter("bjId"));
+
+		SubjectDao sd = new SubjectDao();
+		int result = sd.addBanjiAndSubject(bjId, subId);
+		PrintWriter out;
+		try {
+			out = response.getWriter();
+			String mes = "<script>";
+			if (result > 0) {
+			mes += "alert('保存成功！');";
+			} else {
+				mes += "alert('保存失败！');";
+			}
+			mes += "window.location.href='banji?type=showModifySubject&bjId="+bjId+"'";
+			mes += "</script>";
+			out.print(mes);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void showAddSubject(HttpServletRequest request,
+			HttpServletResponse response) {
+		int bjId = Integer.parseInt(request.getParameter("bjId"));
+		SubjectDao sd = new SubjectDao();
+		List<Subject> subs = sd.searchByNoBanji(bjId);
+		request.setAttribute("subs", subs);
+		try {
+			request.getRequestDispatcher("WEB-INF/banji/showAddSubject.jsp")
+					.forward(request, response);
+		} catch (ServletException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void showModifySubject(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		int bjId = Integer.parseInt(request.getParameter("bjId"));
+		BanjiDao bjDao = new BanjiDao();
+		Banji bj = bjDao.searchById(bjId);
+		
+		SubjectDao sd = new SubjectDao();
+		List<Subject> subs = sd.searchByBanji(bjId);
+		request.setAttribute("bj", bj);
+		request.setAttribute("subs", subs);
+		try {
+			request.getRequestDispatcher("WEB-INF/banji/showModifySubject.jsp")
+					.forward(request, response);
+		} catch (ServletException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	private void search(HttpServletRequest request, HttpServletResponse response) {
 		String name = request.getParameter("name");
 		Banji condition = new Banji();
 		condition.setName(name);
-		List<Banji> list = sd.searchByCondition(condition,0);
+		List<Banji> list = sd.searchByCondition(condition, 0);
 		request.setAttribute("page", 1);
 		request.setAttribute("maxPage", 5);
 		request.setAttribute("bjs", list);
@@ -74,7 +174,7 @@ public class BanjiServlet extends HttpServlet {
 		try {
 			// 修改成功与否的提示并跳转到首页
 			PrintWriter out = response.getWriter();
-			if (a>0) {
+			if (a > 0) {
 				out.print("<script>alert('删除成功！');window.location.href='banji?type=show';</script>");
 			} else {
 				out.print("<script>alert('删除失败！');window.location.href='banji?type=show';</script>");
@@ -90,8 +190,8 @@ public class BanjiServlet extends HttpServlet {
 		Banji bj = sd.searchById(id);
 		request.setAttribute("bj", bj);
 		try {
-			request.getRequestDispatcher("WEB-INF/banji/modify.jsp").forward(request,
-					response);
+			request.getRequestDispatcher("WEB-INF/banji/modify.jsp").forward(
+					request, response);
 		} catch (ServletException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -102,8 +202,8 @@ public class BanjiServlet extends HttpServlet {
 	private void showAdd(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-			request.getRequestDispatcher("WEB-INF/banji/add.jsp").forward(request,
-					response);
+			request.getRequestDispatcher("WEB-INF/banji/add.jsp").forward(
+					request, response);
 		} catch (ServletException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -139,7 +239,7 @@ public class BanjiServlet extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			if (flag) {
 				out.print("<script>alert('修改成功！');window.location.href='banji?type=show';</script>");
-				
+
 			} else {
 				out.print("<script>alert('修改失败！');window.location.href='banji?type=show';</script>");
 			}

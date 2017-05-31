@@ -20,13 +20,13 @@
 
 <body>
 	<div style="width:500px;margin:50px auto">
-		<form action="banji?type=add" method="post" class="form-horizontal"
+		<form action="subject?type=add" method="post" class="form-horizontal"
 			role="form">
 			<div class="form-group">
-				<label class="col-sm-2 control-label">班级名：</label>
+				<label class="col-sm-2 control-label">科目名：</label>
 				<div class="col-sm-6">
 					<input type="text" name="name" class="form-control"
-						placeholder="请输入班级名称" />
+						placeholder="请输入科目名称" />
 				</div>
 			</div>
 
