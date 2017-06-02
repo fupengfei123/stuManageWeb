@@ -1,4 +1,3 @@
-<%@page import="java.lang.Character.Subset"%>
 <%@ page language="java" import="java.util.*,entity.*"
 	pageEncoding="utf-8"%>
 <%

@@ -36,7 +36,7 @@
 			if (selectId != 0) {
 				window.location.href = "subject?type=showModify&id="+ selectId;
 			} else {
-				alert("请选择需要修改的班级！");
+				alert("请选择需要修改的科目！");
 				window.location.href = "subject?type=show";
 			}
 		})

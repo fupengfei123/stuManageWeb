@@ -12,7 +12,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>学生管理系统</title>
+<title>显示成绩页</title>
 
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <script src="bootstrap/js/jquery.min.js" type="text/javascript"></script>
@@ -23,7 +23,7 @@
 	width: 700px;
 	height: 450px;
 	border: solid red 2px;
-	margin: 0px auto;
+	margin: 70px auto;
 }
 </style>
 
@@ -74,64 +74,82 @@
 
 <body>
 	<%
-		List<Banji> bjList = (List<Banji>) request.getAttribute("bjs");
-		List<Student> list = (List<Student>) request.getAttribute("stus");
-	//	Student condition=(Student)request.getAttribute("condition");
+		List<Score> scoreList = (List<Score>) request.getAttribute("scoreList");
+		List<Banji> bjList = (List<Banji>) request.getAttribute("bjList");
+		Score condition = (Score)request.getAttribute("condition");
+		String name = "";
+		int bjId = 0;
+		if(condition!=null){
+			name= condition.getStu().getName();
+			bjId = condition.getStu().getBj().getId();
+		}
+		int subId = 0;
+		if(condition!=null){
+			subId = condition.getSub().getId();
+		}
+		int ye = (Integer) request.getAttribute("page");
+		int maxPage = (Integer) request.getAttribute("maxPage");
+		List<Subject> subList = (List<Subject>)request.getAttribute("subList");
 	%>
 	<div id="a">
 		<div
 			style="position:absolute;width:700px;height:70px;text-align:center">
-			<h1>学生管理页</h1>
+			<h1>成绩管理页</h1>
 		</div>
 		<div
 			style="position:absolute; border:red solid 1px;width:700px;margin-top:70px"></div>
 
 		<div>
-			<form action="student?type=search" method="post">
+			<form action="score?type=search" method="post">
 				<input type="hidden" name="type" value="search" />
-				<div 
-				style="position:absolute; width:700px;height:100px;line-height:25px; margin-top:50px;margin-left:40px;">
-					姓名：<input type="text" style="width:80px;margin-top:30px;"
-						name="name" /> 年龄：<input type="text" name="age"
-						style="width:80px" /> 性别：<input type="text" name="gender"
-						style="width:80px" /> 班级：<select name="banji"
-						class="form-control" style="width:120px;margin-left:420px;margin-top:-32px;">
+				<div style="position:absolute; width:700px;height:100px;line-height:25px; margin-top:50px;margin-left:50px;">
+					姓名：<input type="text" style="width:80px;margin-top:30px;"value="<%=name%>" name="name" /> 
+					班级：<select name="banji"class="form-control" style="width:120px;margin-left:170px;margin-top:-32px;">
 						<option value="-1">所有班级</option>
 						<%
 							for (int i = 0; i < bjList.size(); i++) {
 						%>
-						<option value="<%=bjList.get(i).getId()%>"><%=bjList.get(i).getName()%></option>
+						<option value="<%=bjList.get(i).getId()%>" <%if(bjList.get(i).getId()==bjId){%>selected="selected"<%}%>><%=bjList.get(i).getName()%></option>
 						<%
 							}
 						%>
-					</select> <input type="submit" class="btn btn-primary"
-						style="margin-left:560px;margin-top:-35px;" value="查询" />
+					</select>
+					<div style="position:absolute;margin-left:300px;margin-top:-28px;">
+					科目：<select name="subject"class="form-control" style="width:120px;margin-left:40px;margin-top:-32px;">
+						<option value="-1">所有科目</option>
+						<%
+							for (int i = 0; i < subList.size(); i++) {
+						%>
+						<option value="<%=subList.get(i).getId()%>" <%if(subList.get(i).getId()==subId){%>selected="selected"<%}%>><%=subList.get(i).getName()%></option>
+						<%
+							}
+						%>
+					</select>
+					</div>
+					<input type="submit" class="btn btn-primary"
+						style="margin-left:500px;margin-top:-35px;" value="查询" />
 					</div>
 			</form>
 		</div>
-		<%
-			int ye = (Integer) request.getAttribute("page");
-			int maxPage = (Integer) request.getAttribute("maxPage");
-		%>
 		<div style="margin-top: -50px;">
 			<table style="width:600px;margin:190px auto;"
 				class="table table-striped table-bordered table-hover table-condensed ">
 				<tr align=center class="info">
 					<td>id</td>
 					<td>姓名</td>
-					<td>年龄</td>
-					<td>性别</td>
 					<td>班级</td>
+					<td>科目</td>
+					<td>成绩</td>
 				</tr>
 				<%
-					for (Student stu : list) {
+					for (Score sc : scoreList) {
 				%>
-				<tr align=center data-id="<%=stu.getId()%>">
-					<td class="active"><%=stu.getId()%></td>
-					<td class="success"><%=stu.getName()%></td>
-					<td class="danger"><%=stu.getAge()%></td>
-					<td class="warning"><%=stu.getGender()%></td>
-					<td class="warning"><%=stu.getBj().getName()%></td>
+				<tr align=center>
+					<td class="active"><%=sc.getStu().getId()%></td>
+					<td class="success"><%=sc.getStu().getName()%></td>
+					<td class="danger"><%=sc.getStu().getBj().getName()%></td>
+					<td class="warning"><%=sc.getSub().getName()%></td>
+					<td class="warning"><%=sc.getScore()%></td>
 				</tr>
 				<%
 					}
@@ -141,11 +159,11 @@
 		<div style="position:absolute;margin-left:194px;margin-top:-180px">
 			<ul class="pagination">
 
-				<li><a href="student?type=show&page=1">首页</a>
+				<li><a href="score?type=search&page=1">首页</a>
 				</li>
 
 				<li <%if (ye <= 1) {%> class="disabled" <%}%>><a
-					href="student?type=show&page=<%=ye - 1%>">《上一页</a>
+					href="score?type=search&page=<%=ye - 1%>">《上一页</a>
 				</li>
 
 				<%
@@ -159,27 +177,16 @@
 					for (int i = begin; i <= end; i++) {
 				%>
 				<li <%if (ye == i) {%> class="active" <%}%>><a
-					href="student?type=show&page=<%=i%>" style="width:38px"><%=i%></a>
+					href="score?type=search&page=<%=i%>" style="width:38px"><%=i%></a>
 				</li>
 				<%
 					}
 				%>
 				<li <%if (ye >= maxPage) {%> class="disabled" <%}%>><a
-					href="student?type=show&page=<%=ye + 1%>">下一页》</a></li>
-				<li><a href="student?type=show&page=<%=maxPage%>">尾页</a>
+					href="score?type=search&page=<%=ye + 1%>">下一页》</a></li>
+				<li><a href="score?type=search&page=<%=maxPage%>">尾页</a>
 				</li>
 			</ul>
-		</div>
-		<div style="position:absolute;margin-top:-105px">
-			<div style="margin-left:150px;float:left">
-				<button id="add" type="button" class="btn btn-primary">增加</button>
-			</div>
-			<div style="margin-left:100px;float:left">
-				<button id="modify" type="button" class="btn btn-primary">修改</button>
-			</div>
-			<div style="margin-left:100px;float:left">
-				<button id="delete" type="button" class="btn btn-danger">删除</button>
-			</div>
 		</div>
 	</div>
 

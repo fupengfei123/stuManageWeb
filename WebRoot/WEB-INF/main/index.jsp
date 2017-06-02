@@ -27,10 +27,10 @@
 #continer #header {
 	height: 60px;
 	overflow: hidden;
+	margin-top: 20px;
 }
-
 #left,#right {
-	height: 550px;
+	height: 450px;
 }
 </style>
 </head>

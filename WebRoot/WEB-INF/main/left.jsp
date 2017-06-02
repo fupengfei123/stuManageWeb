@@ -16,7 +16,8 @@
 <script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 <style type="text/css">
 #accordion {
-	margin-top: 150px;
+margin-left:35px;
+	margin-top: 50px;
 }
 
 #accordion a {
@@ -88,10 +89,10 @@
 						</div>
 						<div id="score" class="panel-collapse collapse">
 							<div class="panel-body">
-								<a>显示成绩</a>
+								<a href="score" target="show">显示成绩</a>
 							</div>
 							<div class="panel-body">
-								<a>添加成绩</a>
+								<a href="score?type=showInput" target="show">录入成绩</a>
 							</div>
 						</div>
 					</div>

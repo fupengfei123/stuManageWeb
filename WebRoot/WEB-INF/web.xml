@@ -34,6 +34,26 @@
 		<url-pattern>/main</url-pattern>
 	</servlet-mapping>
 	
+		<servlet>
+		<servlet-name>UserServlet</servlet-name>
+		<servlet-class>servlet.UserServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>UserServlet</servlet-name>
+		<url-pattern>/user</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ScoreServlet</servlet-name>
+		<servlet-class>servlet.ScoreServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ScoreServlet</servlet-name>
+		<url-pattern>/score</url-pattern>
+	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>SubjectServlet</servlet-name>
 		<servlet-class>servlet.SubjectServlet</servlet-class>
@@ -44,7 +64,20 @@
 		<url-pattern>/subject</url-pattern>
 	</servlet-mapping>
 	
+	<filter>
+		<filter-name>LoginFilter</filter-name>
+		<filter-class>filter.LoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>LoginFilter</filter-name>
+		<url-pattern>/main</url-pattern>
+		<url-pattern>/student</url-pattern>
+		<url-pattern>/banji</url-pattern>
+		<url-pattern>/subject</url-pattern>
+		<url-pattern>/score</url-pattern>
+	</filter-mapping>
+	
 	<welcome-file-list>
-		<welcome-file>main</welcome-file>
+		<welcome-file>user</welcome-file>
 	</welcome-file-list>
 </web-app>
