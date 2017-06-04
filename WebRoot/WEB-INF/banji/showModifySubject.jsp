@@ -20,8 +20,7 @@
 <style>
 #a {
 	width: 700px;
-	height: 500px;
-	border: solid red 2px;
+	height: 480px;
 	margin: 50px auto;
 }
 </style>
@@ -67,14 +66,11 @@
 <body>
 	<div id="a">
 		<div
-			style="position:absolute;margin-top:10px;width:700px;height:100px;text-align:center">
+			style="width:700px;text-align:center">
 			<h1>科目管理页</h1>
 		</div>
 		<div
-			style="position:absolute; border:red solid 1px;width:700px;margin-top:100px"></div>
-
-		<div
-			style="width:200px; font-size: 30px;margin-left: 50px;margin-top:135px;">
+			style="width:200px; font-size: 30px;margin-left: 50px;">
 			<select id="bjSelect" name="bjId" class="form-control">
 				<%
 					for (int i = 0; i < bjs.size(); i++) {
@@ -90,7 +86,7 @@
 				%>
 			</select>
 		</div>
-		<table style="width:600px;margin:40px auto"
+		<table style="width:600px;margin:20px auto"
 			class="table table-striped table-bordered table-hover table-condensed ">
 
 			<tr align=center class="info">
@@ -109,9 +105,7 @@
 				}
 			%>
 		</table>
-	</div>
-	<div style="position:absolute;margin-top:-105px">
-		<div style="margin-left:150px;float:left">
+		<div style="margin-left:180px;float:left">
 			<button id="add" type="button" class="btn btn-primary">增加</button>
 		</div>
 		<div style="margin-left:100px;float:left">

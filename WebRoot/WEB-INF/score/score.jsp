@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@page import="entity.*" %>
+<%@page import="entity.*"%>
 
 <%
 	String path = request.getContextPath();
@@ -21,9 +21,8 @@
 <style>
 #a {
 	width: 700px;
-	height: 450px;
-	border: solid red 2px;
-	margin: 70px auto;
+	height: 480px;
+	margin: 10px auto;
 }
 </style>
 
@@ -74,65 +73,68 @@
 
 <body>
 	<%
-		List<Score> scoreList = (List<Score>) request.getAttribute("scoreList");
+		List<Score> scoreList = (List<Score>) request
+				.getAttribute("scoreList");
 		List<Banji> bjList = (List<Banji>) request.getAttribute("bjList");
-		Score condition = (Score)request.getAttribute("condition");
+		Score condition = (Score) request.getAttribute("condition");
 		String name = "";
 		int bjId = 0;
-		if(condition!=null){
-			name= condition.getStu().getName();
+		if (condition != null) {
+			name = condition.getStu().getName();
 			bjId = condition.getStu().getBj().getId();
 		}
 		int subId = 0;
-		if(condition!=null){
+		if (condition != null) {
 			subId = condition.getSub().getId();
 		}
 		int ye = (Integer) request.getAttribute("page");
 		int maxPage = (Integer) request.getAttribute("maxPage");
-		List<Subject> subList = (List<Subject>)request.getAttribute("subList");
+		List<Subject> subList = (List<Subject>) request
+				.getAttribute("subList");
 	%>
 	<div id="a">
-		<div
-			style="position:absolute;width:700px;height:70px;text-align:center">
+		<div style="width:700px;text-align:center">
 			<h1>成绩管理页</h1>
 		</div>
-		<div
-			style="position:absolute; border:red solid 1px;width:700px;margin-top:70px"></div>
-
 		<div>
 			<form action="score?type=search" method="post">
 				<input type="hidden" name="type" value="search" />
-				<div style="position:absolute; width:700px;height:100px;line-height:25px; margin-top:50px;margin-left:50px;">
-					姓名：<input type="text" style="width:80px;margin-top:30px;"value="<%=name%>" name="name" /> 
-					班级：<select name="banji"class="form-control" style="width:120px;margin-left:170px;margin-top:-32px;">
+				<div style="width:700px;margin-left:50px;margin-top:10px;">
+					姓名：<input type="text" style="width:80px;margin-top:10px;"
+						value="<%=name%>" name="name" /> 班级：<select name="banji"
+						class="form-control"
+						style="width:120px;margin-left:170px;margin-top:-30px;">
 						<option value="-1">所有班级</option>
 						<%
 							for (int i = 0; i < bjList.size(); i++) {
 						%>
-						<option value="<%=bjList.get(i).getId()%>" <%if(bjList.get(i).getId()==bjId){%>selected="selected"<%}%>><%=bjList.get(i).getName()%></option>
+						<option value="<%=bjList.get(i).getId()%>"
+							<%if (bjList.get(i).getId() == bjId) {%> selected="selected" <%}%>><%=bjList.get(i).getName()%></option>
 						<%
 							}
 						%>
 					</select>
-					<div style="position:absolute;margin-left:300px;margin-top:-28px;">
-					科目：<select name="subject"class="form-control" style="width:120px;margin-left:40px;margin-top:-32px;">
-						<option value="-1">所有科目</option>
-						<%
-							for (int i = 0; i < subList.size(); i++) {
-						%>
-						<option value="<%=subList.get(i).getId()%>" <%if(subList.get(i).getId()==subId){%>selected="selected"<%}%>><%=subList.get(i).getName()%></option>
-						<%
-							}
-						%>
-					</select>
-					</div>
+					<div style="width:120px;margin-left:300px;margin-top: -30px">科目：</div>
+					<select name="subject" class="form-control"
+							style="width:120px;margin-left:345px;margin-top: -24px">
+							<option value="-1">所有科目</option>
+							<%
+								for (int i = 0; i < subList.size(); i++) {
+							%>
+							<option value="<%=subList.get(i).getId()%>"
+								<%if (subList.get(i).getId() == subId) {%> selected="selected" <%}%>><%=subList.get(i).getName()%></option>
+							<%
+								}
+							%>
+						</select>
+				
 					<input type="submit" class="btn btn-primary"
 						style="margin-left:500px;margin-top:-35px;" value="查询" />
-					</div>
+				</div>
 			</form>
 		</div>
-		<div style="margin-top: -50px;">
-			<table style="width:600px;margin:190px auto;"
+		<div>
+			<table style="width:600px;margin:0px auto;"
 				class="table table-striped table-bordered table-hover table-condensed ">
 				<tr align=center class="info">
 					<td>id</td>
@@ -156,15 +158,13 @@
 				%>
 			</table>
 		</div>
-		<div style="position:absolute;margin-left:194px;margin-top:-180px">
+		<div style="margin-left:194px;">
 			<ul class="pagination">
 
-				<li><a href="score?type=search&page=1">首页</a>
-				</li>
+				<li><a href="score?type=search&page=1">首页</a></li>
 
 				<li <%if (ye <= 1) {%> class="disabled" <%}%>><a
-					href="score?type=search&page=<%=ye - 1%>">《上一页</a>
-				</li>
+					href="score?type=search&page=<%=ye - 1%>">《上一页</a></li>
 
 				<%
 					int end = ye + 4;
@@ -183,9 +183,9 @@
 					}
 				%>
 				<li <%if (ye >= maxPage) {%> class="disabled" <%}%>><a
-					href="score?type=search&page=<%=ye + 1%>">下一页》</a></li>
-				<li><a href="score?type=search&page=<%=maxPage%>">尾页</a>
+					href="score?type=search&page=<%=ye + 1%>">下一页》</a>
 				</li>
+				<li><a href="score?type=search&page=<%=maxPage%>">尾页</a></li>
 			</ul>
 		</div>
 	</div>

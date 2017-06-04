@@ -6,6 +6,7 @@ public class Student {
 	private int age;
 	private String gender;
 	private Banji bj;
+	private String photo;
 	
 	public int getId() {
 		return id;
@@ -36,6 +37,12 @@ public class Student {
 	}
 	public void setBj(Banji bj) {
 		this.bj = bj;
+	}
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 	
 }

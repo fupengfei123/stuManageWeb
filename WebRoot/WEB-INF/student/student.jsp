@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@page import="entity.*" %>
+<%@page import="entity.*"%>
 
 <%
 	String path = request.getContextPath();
@@ -22,8 +22,25 @@
 #a {
 	width: 700px;
 	height: 450px;
-	border: solid red 2px;
 	margin: 0px auto;
+}
+
+.photo {
+	width: 30px;
+	height: 30px;
+}
+
+#bigPhoto {
+	display: none;
+	position: absolute;
+	width: 100px;
+	height: 100px;
+}
+
+#bigPhoto img {
+	width: 100px;
+	height: 100px;
+	z-index: 10;
 }
 </style>
 
@@ -67,6 +84,19 @@
 												window.location.href = "student?type=show";
 											}
 										});
+						$(".photo").mouseover(
+								function(event) {
+									$("#bigPhoto").show();
+									$("#bigPhoto").children().attr("src",
+											$(this).attr("src"));
+									$("#bigPhoto").offset({
+										left : event.pageX - 80,
+										top : event.pageY - 80,
+									});
+								});
+						$(".photo").mouseout(function() {
+							$("#bigPhoto").hide();
+						});
 					});
 </script>
 
@@ -76,26 +106,22 @@
 	<%
 		List<Banji> bjList = (List<Banji>) request.getAttribute("bjs");
 		List<Student> list = (List<Student>) request.getAttribute("stus");
-	//	Student condition=(Student)request.getAttribute("condition");
+		//	Student condition=(Student)request.getAttribute("condition");
 	%>
 	<div id="a">
-		<div
-			style="position:absolute;width:700px;height:70px;text-align:center">
+		<div style="width:700px;text-align:center">
 			<h1>学生管理页</h1>
 		</div>
-		<div
-			style="position:absolute; border:red solid 1px;width:700px;margin-top:70px"></div>
-
 		<div>
 			<form action="student?type=search" method="post">
 				<input type="hidden" name="type" value="search" />
-				<div 
-				style="position:absolute; width:700px;height:100px;line-height:25px; margin-top:50px;margin-left:40px;">
+				<div style="width:700px;margin-left:40px;">
 					姓名：<input type="text" style="width:80px;margin-top:30px;"
 						name="name" /> 年龄：<input type="text" name="age"
 						style="width:80px" /> 性别：<input type="text" name="gender"
 						style="width:80px" /> 班级：<select name="banji"
-						class="form-control" style="width:120px;margin-left:420px;margin-top:-32px;">
+						class="form-control"
+						style="width:120px;margin-left:420px;margin-top:-32px;">
 						<option value="-1">所有班级</option>
 						<%
 							for (int i = 0; i < bjList.size(); i++) {
@@ -106,15 +132,15 @@
 						%>
 					</select> <input type="submit" class="btn btn-primary"
 						style="margin-left:560px;margin-top:-35px;" value="查询" />
-					</div>
+				</div>
 			</form>
 		</div>
 		<%
 			int ye = (Integer) request.getAttribute("page");
 			int maxPage = (Integer) request.getAttribute("maxPage");
 		%>
-		<div style="margin-top: -50px;">
-			<table style="width:600px;margin:190px auto;"
+		<div>
+			<table style="width:600px;margin:0px auto;"
 				class="table table-striped table-bordered table-hover table-condensed ">
 				<tr align=center class="info">
 					<td>id</td>
@@ -122,6 +148,7 @@
 					<td>年龄</td>
 					<td>性别</td>
 					<td>班级</td>
+					<td>照片</td>
 				</tr>
 				<%
 					for (Student stu : list) {
@@ -132,21 +159,31 @@
 					<td class="danger"><%=stu.getAge()%></td>
 					<td class="warning"><%=stu.getGender()%></td>
 					<td class="warning"><%=stu.getBj().getName()%></td>
+					<%
+					String photo = "default.jpg";
+						if (stu.getPhoto() != null){
+							photo = stu.getPhoto();
+						}
+					%>
+					<td class="success"><img class="photo"
+						src="photo/<%=photo%>" />
+					</td>
 				</tr>
 				<%
 					}
 				%>
 			</table>
+			<div id="bigPhoto">
+				<img src="" />
+			</div>
 		</div>
-		<div style="position:absolute;margin-left:194px;margin-top:-180px">
+		<div style="margin-left:194px;">
 			<ul class="pagination">
 
-				<li><a href="student?type=show&page=1">首页</a>
-				</li>
+				<li><a href="student?type=show&page=1">首页</a></li>
 
 				<li <%if (ye <= 1) {%> class="disabled" <%}%>><a
-					href="student?type=show&page=<%=ye - 1%>">《上一页</a>
-				</li>
+					href="student?type=show&page=<%=ye - 1%>">《上一页</a></li>
 
 				<%
 					int end = ye + 4;
@@ -165,23 +202,23 @@
 					}
 				%>
 				<li <%if (ye >= maxPage) {%> class="disabled" <%}%>><a
-					href="student?type=show&page=<%=ye + 1%>">下一页》</a></li>
-				<li><a href="student?type=show&page=<%=maxPage%>">尾页</a>
+					href="student?type=show&page=<%=ye + 1%>">下一页》</a>
 				</li>
+				<li><a href="student?type=show&page=<%=maxPage%>">尾页</a></li>
 			</ul>
-		</div>
-		<div style="position:absolute;margin-top:-105px">
-			<div style="margin-left:150px;float:left">
-				<button id="add" type="button" class="btn btn-primary">增加</button>
-			</div>
-			<div style="margin-left:100px;float:left">
-				<button id="modify" type="button" class="btn btn-primary">修改</button>
-			</div>
-			<div style="margin-left:100px;float:left">
-				<button id="delete" type="button" class="btn btn-danger">删除</button>
+
+			<div>
+				<div style="float:left">
+					<button id="add" type="button" class="btn btn-primary">增加</button>
+				</div>
+				<div style="margin-left:100px;float:left">
+					<button id="modify" type="button" class="btn btn-primary">修改</button>
+				</div>
+				<div style="margin-left:100px;float:left">
+					<button id="delete" type="button" class="btn btn-danger">删除</button>
+				</div>
 			</div>
 		</div>
 	</div>
-
 </body>
 </html>

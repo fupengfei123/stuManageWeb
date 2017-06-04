@@ -12,7 +12,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>My JSP 'add.jsp' starting page</title>
+<title>新增学生</title>
 
 <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
 <script src="bootstrap/js/jquery.min.js" type="text/javascript"></script>
@@ -33,9 +33,9 @@
 			$("#msg").focus(function() {
 				$("#msg").html("");
 
-			})
-		})
-	})
+			});
+		});
+	});
 </script>
 </head>
 
@@ -44,14 +44,13 @@
 		List<Banji> bjList = (List<Banji>) request.getAttribute("bjs");
 	%>
 	<div style="width:400px;margin:50px auto">
-		<form action="student?type=add" method="post" class="form-horizontal"
-			role="form">
+		<form action="student?type=add" method="post"
+			enctype="multipart/form-data" class="form-horizontal" role="form">
 			<div class="form-group">
 				<label class="col-sm-2 control-label">姓名：</label> <label
 					class="col-sm-6"> <input type="text" name="name"
 					class="form-control" placeholder="请输入姓名" /> </label>
 			</div>
-
 			<div class="form-group">
 				<label class="col-sm-2 control-label">性别：</label> <label
 					class="col-sm-6 radio"> <label> <input type="radio"
@@ -66,11 +65,17 @@
 				<div id="msg" class="col-sm-4" style="line-height:32px;color:red"></div>
 			</div>
 
+			<div class="form-group">
+				<label class="col-sm-2 control-label">照片：</label>
+				<label class="col-sm-6">
+					<input type="file" name="photo" class="form-control" />
+				</label>
+				<div id="msg" class="col-sm-4" style="line-height:32px;color:red"></div>
+			</div>
 
 			<label class="col-sm-2 control-label" style="margin-left: -30px">班级名：</label>
-			<label class="col-sm-6"> 
-			<select name="banji" class="form-control"
-				style="width:215px;">
+			<label class="col-sm-6"> <select name="banji"
+				class="form-control" style="width:215px;">
 					<%
 						for (int i = 0; i < bjList.size(); i++) {
 					%>

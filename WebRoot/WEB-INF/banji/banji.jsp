@@ -21,7 +21,6 @@
 #a {
 	width: 700px;
 	height: 500px;
-	border: solid red 2px;
 	margin: 50px auto;
 }
 </style>
@@ -75,16 +74,14 @@
 
 <body>
 	<div id="a">
-	<div style="position:absolute;margin-top:10px;width:700px;height:100px;text-align:center" >
+	<div style="width:700px;text-align:center" >
 	<h1>班级管理页</h1></div>
-		<div
-			style="position:absolute; border:red solid 1px;width:700px;margin-top:100px"></div>
 
 		<div>
 			<form action="banji" method="post">
 				<input type="hidden" name="type" value="search" />
-				<div style="position:absolute; width:700px;height:100px;line-height:25px; margin-top:85px;text-align:center;">
-					班级名：<input type="text" style="width:120px;margin-top:30px;" name="name" />
+				<div style=" width:700px;margin-top:20px; text-align:center;">
+					班级名：<input type="text" style="width:120px;" name="name" />
 					<input type="submit" class="btn btn-primary"
 						style="margin-left:48px" value="查询"/>
 						</div>
@@ -95,7 +92,7 @@
 				int ye = (Integer) request.getAttribute("page");
 			int maxPage = (Integer) request.getAttribute("maxPage");
 		%>
-			<table style="width:600px;margin:190px auto"
+			<table style="width:600px;margin:0px auto"
 				class="table table-striped table-bordered table-hover table-condensed ">
 				<tr align=center class="info">
 					<td>id</td>
@@ -113,7 +110,7 @@
 				%>
 			</table>
 		</div>
-		<div style="position:absolute;margin-left:194px;margin-top:-180px">
+		<div style="margin-left:194px;margin-top:-280px">
 			<ul class="pagination">
 
 				<li><a href="banji?type=show&page=1">首页</a>
@@ -145,7 +142,7 @@
 				</li>
 			</ul>
 		</div>
-		<div style="position:absolute;margin-top:-105px">
+		<div>
 			<div style="margin-left:150px;float:left">
 				<button id="add" type="button" class="btn btn-primary">增加</button>
 			</div>

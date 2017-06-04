@@ -22,6 +22,7 @@ public class StudentDao extends Jdbc {
 				stu.setName(resultSet.getString("name"));
 				stu.setAge(resultSet.getInt("age"));
 				stu.setGender(resultSet.getString("gender"));
+				stu.setPhoto(resultSet.getString("photo"));
 				Banji bj = new Banji();
 				bj.setId(resultSet.getInt("bj_id"));
 				bj.setName(resultSet.getString("bjName"));
@@ -84,13 +85,14 @@ public class StudentDao extends Jdbc {
 		// 加载驱动
 		createConnection();
 		try {
-			String sql = "insert into student(name,age,gender,bj_id) values(?,?,?,?)";
+			String sql = "insert into student(name,age,gender,bj_id,photo) values(?,?,?,?,?)";
 			preparedStatement = connection.prepareStatement(sql);
 			// 给name,age,gender赋值
 			preparedStatement.setString(1, stu.getName());
 			preparedStatement.setInt(2, stu.getAge());
 			preparedStatement.setString(3, stu.getGender());
 			preparedStatement.setInt(4, stu.getBj().getId());
+			preparedStatement.setString(5, stu.getPhoto());
 			// 返回结果
 			result = preparedStatement.executeUpdate();
 		} catch (SQLException e) {
@@ -157,14 +159,15 @@ public class StudentDao extends Jdbc {
 			if (condition.getBj().getId() != -1) {
 				where += " and s.bj_id="+condition.getBj().getId();
 			}
-			resultSet = statement
-					.executeQuery("select s.*,bj.name as bjName from student as s left join banji as bj on s.bj_id=bj.id "+ where + " limit " + begin + ",4;");
+			String sql = "select s.*,bj.name as bjName from student as s left join banji as bj on s.bj_id=bj.id "+ where + " limit " + begin + ",4;";
+			resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
 				Student stu = new Student();
 				stu.setId(resultSet.getInt("id"));
 				stu.setName(resultSet.getString("name"));
 				stu.setAge(resultSet.getInt("age"));
 				stu.setGender(resultSet.getString("gender"));
+				stu.setPhoto(resultSet.getString("photo"));
 				Banji bj = new Banji();
 				bj.setId(resultSet.getInt("bj_id"));
 				bj.setName(resultSet.getString("bjName"));

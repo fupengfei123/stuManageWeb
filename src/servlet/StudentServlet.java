@@ -1,14 +1,21 @@
 package servlet;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import dao.BanjiDao;
 import dao.StudentDao;
@@ -145,23 +152,57 @@ public class StudentServlet extends HttpServlet {
 
 	private void add(HttpServletRequest request, HttpServletResponse response) {
 		// 获取参数
-		String name = request.getParameter("name");
-		int age = Integer.parseInt(request.getParameter("age"));
-		String gender = request.getParameter("gender");
-		int bjId = Integer.parseInt(request.getParameter("banji"));
-		Student stu = new Student();
-		stu.setName(name);
-		stu.setAge(age);
-		stu.setGender(gender);
-		Banji bj = new Banji();
-		bj.setId(bjId);
-		stu.setBj(bj);
-		sd.add(stu);
 		try {
+			String name = "";
+			int age = 0;
+			String gender = "";
+			int bjId = 0;
+			String fileName = "";
+			String uploadPath = request.getSession().getServletContext()
+					.getRealPath("/")
+					+ "/photo";
+			FileItemFactory factory = new DiskFileItemFactory();// 为该请求创建一个DiskFileItemFactory对象，通过它来解析请求。执行解析后，所有的表单项目都保存在一个List中。
+			ServletFileUpload upload = new ServletFileUpload(factory);
+			List<FileItem> items = upload.parseRequest(request);
+			for (FileItem item : items) {
+				String fieldName = item.getFieldName();
+				if (fieldName != null) {
+					if (fieldName.equals("photo")) {
+						fileName = item.getName();
+						
+						int index = fileName.lastIndexOf(".");
+						UUID uid = UUID.randomUUID();
+						fileName = uid + fileName.substring(index);
+
+						String url = uploadPath + "/" + fileName;
+						File savedFile = new File(url);
+						item.write(savedFile);
+					} else if (fieldName.equals("name")) {
+						name = new String(item.getString().getBytes(
+								"ISO-8859-1"), "utf-8");
+					} else if (fieldName.equals("age")) {
+						age = Integer.parseInt(item.getString());
+					} else if (fieldName.equals("gender")) {
+						gender = new String(item.getString().getBytes(
+								"ISO-8859-1"), "utf-8");
+					} else if (fieldName.equals("banji")) {
+						bjId = Integer.parseInt(item.getString());
+					}
+				}
+			}
+			Student stu = new Student();
+			stu.setName(name);
+			stu.setAge(age);
+			stu.setGender(gender);
+			stu.setPhoto(fileName);
+			Banji bj = new Banji();
+			bj.setId(bjId);
+			stu.setBj(bj);
+			sd.add(stu);
 			// 添加保存成功与否的提示并跳转到首页
 			PrintWriter out = response.getWriter();
 			out.print("<script>alert('保存成功！');window.location.href='student?type=show';</script>");
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

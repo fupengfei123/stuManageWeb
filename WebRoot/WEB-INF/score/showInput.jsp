@@ -21,9 +21,8 @@
 <style>
 #a {
 	width: 700px;
-	height: 450px;
-	border: solid red 2px;
-	margin: 70px auto;
+	height: 480px;
+	margin: 0px auto;
 }
 </style>
 
@@ -62,8 +61,7 @@
 </head>
 <body>
 	<%
-		List<Score> scoreList = (List<Score>) request
-				.getAttribute("scoreList");
+		List<Score> scoreList = (List<Score>) request.getAttribute("scoreList");
 		List<Banji> bjList = (List<Banji>) request.getAttribute("bjList");
 		Score condition = (Score) request.getAttribute("condition");
 		String name = "";
@@ -78,21 +76,17 @@
 		}
 		int ye = (Integer) request.getAttribute("page");
 		int maxPage = (Integer) request.getAttribute("maxPage");
-		List<Subject> subList = (List<Subject>) request
-				.getAttribute("subList");
+		List<Subject> subList = (List<Subject>) request.getAttribute("subList");
 	%>
 	<div id="a">
 		<div
-			style="position:absolute;width:700px;height:70px;text-align:center">
+			style="width:700px;text-align:center">
 			<h1>录入成绩页</h1>
 		</div>
-		<div
-			style="position:absolute; border:red solid 1px;width:700px;margin-top:70px"></div>
 		<div>
 			<form action="score?type=search" method="post">
 				<input type="hidden" name="type" value="search" />
-				<div
-					style="position:absolute; width:700px;height:100px;line-height:25px; margin-top:50px;margin-left:50px;">
+				<div style="width:700px;margin-left:50px;">
 					姓名：<input type="text" style="width:80px;margin-top:30px;"
 						value="<%=name%>" name="name" /> 班级：<select name="banji"
 						class="form-control"
@@ -110,7 +104,7 @@
 					</select>
 					<div style="position:absolute;margin-left:300px;margin-top:-28px;">
 						科目：<select name="subject" class="form-control"
-							style="width:120px;margin-left:40px;margin-top:-32px;">
+							style="width:120px;margin-left:40px;margin-top:-26px;">
 							<option value="-1">所有科目</option>
 							<%
 								for (int i = 0; i < subList.size(); i++) {
@@ -128,8 +122,8 @@
 				</div>
 			</form>
 		</div>
-		<div style="margin-top: -50px;">
-			<table style="width:600px;margin:190px auto;"
+		<div>
+			<table style="width:600px;margin:0px auto;"
 				class="table table-striped table-bordered table-hover table-condensed ">
 				<tr align=center class="info">
 					<td>id</td>
@@ -156,8 +150,8 @@
 					}
 				%>
 			</table>
-		</div>
-		<div style="position:absolute;margin-left:194px;margin-top:-180px">
+		
+		<div style="margin-left:194px;">
 			<ul class="pagination">
 
 				<li><a href="score?type=showInput&page=1">首页</a></li>
@@ -184,6 +178,7 @@
 				</li>
 				<li><a href="score?type=showInput&page=<%=maxPage%>">尾页</a></li>
 			</ul>
+		</div>
 		</div>
 	</div>
 </body>
