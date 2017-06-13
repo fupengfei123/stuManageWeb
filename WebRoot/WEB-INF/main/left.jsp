@@ -46,7 +46,7 @@ margin-left:35px;
 					<a href="student?type=search" target="show">显示学生</a>
 				</div>
 				<div class="panel-body">
-					<a>增加学生</a>
+					<a href="student?type=showAdd" target="show">增加学生</a>
 				</div>
 			</div>
 			<div class="panel panel-default">
@@ -60,7 +60,7 @@ margin-left:35px;
 						<a href="banji" target="show">显示班级</a>
 					</div>
 					<div class="panel-body">
-						<a href="banji?type=showAdd" target="right">增加班级</a>
+						<a href="banji?type=showAdd" target="show">增加班级</a>
 					</div>
 					<div class="panel-body">
 						<a href="banji?type=showModifySubject" target="show">管理课程</a>
@@ -78,7 +78,7 @@ margin-left:35px;
 							<a href="subject" target="show">显示科目</a>
 						</div>
 						<div class="panel-body">
-							<a>增加科目</a>
+							<a href="subject?type=showAdd" target="show">增加科目</a>
 						</div>
 					</div>
 					<div class="panel panel-default">
